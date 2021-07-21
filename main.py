@@ -31,7 +31,7 @@ def main(min, dimensions):
         return dimensions[position].index
 
     def junction(final_state, amplitude, position, dir, count):
-        print('  (@{}, travelling {}, init_a {}) Entering junction'.format(position, dir_pretty(dir), amplitude))
+        print('  (@{}, travelling {}, init_a {:0.3f}) Entering junction'.format(position, dir_pretty(dir), amplitude))
 
         pre_index = get_index((position + 1, position)[dir])
         post_index = get_index((position, position + 1)[dir])
@@ -50,7 +50,7 @@ def main(min, dimensions):
                 print('  (@{}, travelling {}, init_a {}) Too small reflection:'.format(position, dir_pretty(ref_dir), amplitude, amplitude_ref))
                 return
             elif (position == 0 and not ref_dir):
-                print("    (@{}, travelling {}, init_a {}) adding to REF SUM: {}".format(position, dir_pretty(ref_dir), amplitude, amplitude_ref))
+                print("    (@{}, travelling {}, init_a {:0.3f}) adding to REF SUM: {:0.3f}".format(position, dir_pretty(ref_dir), amplitude, amplitude_ref))
                 final_state[0] += amplitude_ref
             elif (position == len(dimensions) - 2 and ref_dir): # This should never fire, right?
                 print("    YOU SHOULDN'T BE HERE, but adding to TRANS SUM:", amplitude_ref)
@@ -67,13 +67,13 @@ def main(min, dimensions):
                 return
 
             if amplitude_trans < min:
-                print(' Too small transmission:', amplitude_trans)
+                print('  (@{}, travelling {}, init_a {:0.3f}) Too small transmission: {}'.format(position, dir_pretty(dir), amplitude, amplitude_trans))
                 return
             elif (position == len(dimensions) - 2 and dir):
-                print("    (@{}, travelling {}, init_a {}) adding to TRANS SUM: {}".format(position, dir_pretty(dir), amplitude, amplitude_trans))
+                print("    (@{}, travelling {}, init_a {:0.3f}) adding to TRANS SUM: {:0.3f}".format(position, dir_pretty(dir), amplitude, amplitude_trans))
                 final_state[1] += amplitude_trans
             elif (position == 0) and not dir:
-                print("    (@{}, travelling {}, init_a {}) adding to REF SUM:{}".format(position, dir_pretty(dir), amplitude, amplitude_trans))
+                print("    (@{}, travelling {}, init_a {:0.3f}) adding to REF SUM: {:0.3f}".format(position, dir_pretty(dir), amplitude, amplitude_trans))
                 final_state[0] += amplitude_trans
             else:
                 new_position = position + (-1, 1)[dir]
